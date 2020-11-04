@@ -21,16 +21,18 @@
         [CommandMethod("ModPlus", "mpPrPosition", CommandFlags.UsePickSet)]
         public void AddPositions()
         {
+#if !DEBUG
             Statistic.SendCommandStarting(new ModPlusConnector());
+#endif
 
             var doc = AcApp.DocumentManager.MdiActiveDocument;
             var ed = doc.Editor;
             var db = doc.Database;
-            
+
             var opts = new PromptSelectionOptions();
             opts.Keywords.Add(Language.GetItem(LangItem, "h2"));
             var kws = opts.Keywords.GetDisplayString(true);
-            opts.MessageForAdding = "\n" + Language.GetItem(LangItem, "h1") + ": " + kws;
+            opts.MessageForAdding = $"\n{Language.GetItem(LangItem, "h1")}: {kws}";
             opts.KeywordInput += (sender, e) =>
             {
                 if (e.Input.Equals(Language.GetItem(LangItem, "h2")))
@@ -73,7 +75,7 @@
                             {
                                 var element = product.GetNameByRule();
                                 if (!element.Contains(product.BaseDocument.ShortName))
-                                    element = product.BaseDocument.ShortName + " " + element;
+                                    element = $"{product.BaseDocument.ShortName} {element}";
 
                                 // Если еще не было
                                 if (!elements.Contains(element))
@@ -83,7 +85,7 @@
 
                                     // Запрос пользователю
                                     var pso = new PromptStringOptions(
-                                        Language.GetItem(LangItem, "h3") + ": " + element + ". " + Language.GetItem(LangItem, "h4") + ": ")
+                                        $"{Language.GetItem(LangItem, "h3")}: {element}. {Language.GetItem(LangItem, "h4")}: ")
                                     {
                                         AllowSpaces = true
                                     };
@@ -163,7 +165,7 @@
                 }
             }
         }
-        
+
         // Удаление позиций
         private static void DeletePositions()
         {
@@ -172,7 +174,7 @@
             var db = HostApplicationServices.WorkingDatabase;
             var opts = new PromptSelectionOptions
             {
-                MessageForAdding = "\n" + Language.GetItem(LangItem, "h5") + ": "
+                MessageForAdding = $"\n{Language.GetItem(LangItem, "h5")}: "
             };
             var res = ed.GetSelection(opts);
             if (res.Status != PromptStatus.OK)
@@ -222,11 +224,6 @@
         /// <summary>
         /// Простановка маркировки позиции
         /// </summary>
-        /// <param name="ent">Примитив</param>
-        /// <param name="type">Тип маркировки. 0 - нужно ставить новую марку, 1 - текст, 2 - выноска, 3 - ничего</param>
-        /// <param name="posTxt">Содержимое маркировки</param>
-        /// <param name="element">Имя изделия для отображения в запросе</param>
-        /// <param name="markType"> </param>
         private static void AddPositionMarker(Entity ent, int type, string posTxt, string element, out int markType)
         {
             markType = 3;
@@ -250,9 +247,7 @@
             else
             {
                 var pko = new PromptKeywordOptions(
-                    Language.GetItem(LangItem, "h6") + ": " + element + " " +
-                    Language.GetItem(LangItem, "h7") + ": " + posTxt + ": [" +
-                    Language.GetItem(LangItem, "h8") + "]", "Nothing Text Leader")
+                    $"{Language.GetItem(LangItem, "h6")}: {element} {Language.GetItem(LangItem, "h7")}: {posTxt}: [{Language.GetItem(LangItem, "h8")}]", "Nothing Text Leader")
                 {
                     AllowArbitraryInput = true,
                     AllowNone = false
@@ -357,7 +352,6 @@
         /// <inheritdoc/>
         public void Initialize()
         {
-            // ObjectContextMenu.Attach();
             AcApp.DocumentManager.DocumentCreated += Documents_DocumentCreated;
             AcApp.DocumentManager.DocumentActivated += Documents_DocumentActivated;
 

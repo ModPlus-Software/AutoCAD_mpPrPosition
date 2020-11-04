@@ -29,7 +29,7 @@
                 UseBasePoint = true,
                 UserInputControls = UserInputControls.Accept3dCoordinates |
                                     UserInputControls.GovernedByUCSDetect,
-                Message = "\n" + Language.GetItem(LangItem, "h10") + ": "
+                Message = $"\n{Language.GetItem(LangItem, "h10")}: "
             };
 
             var res = prompts.AcquirePoint(jpo);

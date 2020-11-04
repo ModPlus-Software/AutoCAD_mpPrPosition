@@ -11,7 +11,6 @@
     using ModPlusAPI;
     using ModPlusAPI.Windows;
     using mpProductInt;
-    using Exception = System.Exception;
 
     public class ObjectContextMenu
     {
@@ -50,6 +49,9 @@
         [CommandMethod("ModPlus", "mpLeaderWithMarkForProduct", CommandFlags.UsePickSet)]
         public static void AddLeaderWithMark()
         {
+#if !DEBUG
+            Statistic.SendCommandStarting(new ModPlusConnector());
+#endif
             var doc = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             var ed = doc.Editor;
             var db = doc.Database;
@@ -90,7 +92,7 @@
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (System.Exception ex)
                     {
                         ExceptionBox.Show(ex);
                     }
