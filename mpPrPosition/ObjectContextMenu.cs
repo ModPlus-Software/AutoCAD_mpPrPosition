@@ -74,7 +74,7 @@
                                 continue;
 
                             // Теперь получаем сам продукт
-                            var product = MpProduct.GetProductFromSaved(productInsert);
+                            var product = DbProduct.GetProductFromSaved(productInsert);
 
                             // Если есть данные и нет позиции
                             if (product != null)
@@ -83,11 +83,11 @@
 
                                 // Если в имени нет ShortName, то добавим
                                 if (!mark.Contains(product.BaseDocument.ShortName))
-                                    mark = product.BaseDocument.ShortName + " " + mark;
+                                    mark = $"{product.BaseDocument.ShortName} {mark}";
 
                                 // Если есть длина
                                 if (product.Length != null)
-                                    mark += " L=" + product.Length;
+                                    mark += $" L={product.Length}";
                                 AddLeaderMark(ent, mark);
                             }
                         }

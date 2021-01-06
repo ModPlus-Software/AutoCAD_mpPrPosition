@@ -21,6 +21,7 @@
             return _mLeader;
         }
 
+        /// <inheritdoc/>
         protected override SamplerStatus Sampler(JigPrompts prompts)
         {
             var jpo = new JigPromptPointOptions
@@ -50,6 +51,7 @@
             return _secondPoint.DistanceTo(_prevPoint) > 1e-6;
         }
 
+        /// <inheritdoc/>
         protected override bool WorldDraw(WorldDraw draw)
         {
             var wg = draw.Geometry;

@@ -14,7 +14,7 @@
     using AcApp = Autodesk.AutoCAD.ApplicationServices.Core.Application;
     using Exception = System.Exception;
 
-    public class MpPrPosition : IExtensionApplication
+    public class Command : IExtensionApplication
     {
         private const string LangItem = "mpPrPosition";
 
@@ -65,7 +65,7 @@
                             continue;
 
                         // Теперь получаем сам продукт
-                        var product = MpProduct.GetProductFromSaved(productInsert);
+                        var product = DbProduct.GetProductFromSaved(productInsert);
 
                         // Если есть данные и нет позиции
                         if (product != null)
@@ -193,7 +193,7 @@
                             continue;
 
                         // Теперь получаем сам продукт
-                        var product = MpProduct.GetProductFromSaved(productInsert);
+                        var product = DbProduct.GetProductFromSaved(productInsert);
 
                         // Если есть данные и нет позиции
                         if (product != null)
@@ -247,7 +247,8 @@
             else
             {
                 var pko = new PromptKeywordOptions(
-                    $"{Language.GetItem(LangItem, "h6")}: {element} {Language.GetItem(LangItem, "h7")}: {posTxt}: [{Language.GetItem(LangItem, "h8")}]", "Nothing Text Leader")
+                    $"{Language.GetItem(LangItem, "h6")}: {element} {Language.GetItem(LangItem, "h7")}: {posTxt}: [{Language.GetItem(LangItem, "h8")}]",
+                    "Nothing Text Leader")
                 {
                     AllowArbitraryInput = true,
                     AllowNone = false
