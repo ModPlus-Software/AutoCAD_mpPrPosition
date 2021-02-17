@@ -71,7 +71,7 @@
                         if (product != null)
                         {
                             int markType;
-                            if (string.IsNullOrEmpty(product.Position.Trim()))
+                            if (string.IsNullOrEmpty(product.Position?.Trim()))
                             {
                                 var element = product.GetNameByRule();
                                 if (!element.Contains(product.BaseDocument.ShortName))
